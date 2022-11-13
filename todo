@@ -1,0 +1,9 @@
+# Form per inizializzare le dimensioni della griglia
+# Tavolozza di colori (contiene i colori già in uso e consente di ri-selezionarli)
+# Export/Copia html
+# Sistema per salvare i dati in modifica quando l'utente
+  chiude il browser (sessione, cookie, local-storage, ...)
+# Sicuro bug da correggere (la colorazione a volte avviene anche quando il tasto
+  sx non è giù). Da capire.
+# Tasto annulla
+  

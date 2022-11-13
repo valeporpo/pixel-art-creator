@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .px {
+        display: block;
+        width: 10px;
+        height: 10px;
+        background-color: black;
+        float: left;
+        border: 1px solid white;
+        box-sizing: border-box;
+        cursor: pointer;
+    }
+    .selector {
+        height: 100%;
+        width: 100%;
+        display: block;
+    }
+    .input {
+        display: none;
+    }
+</style>
+<body>
+    <div class="main">
+        <input type="color" id="color-picker">
+        <div id="grid">
+        </div>
+    </div>
+    <script>
+        // Evita un comportamento strano 1
+        document.addEventListener("dragstart", function(event){
+            event.preventDefault();
+            return;
+        });
+
+        // Evita un comportamento strano 2
+        document.addEventListener("drop", function(event){
+            event.preventDefault();
+            return;
+        });
+
+        // Il color picker
+        const input = document.getElementById("color-picker");
+
+        // Il flag che dice se il tasto sx del mouse/touchpad è
+        // cliccato
+        let leftClick;
+
+        // Setta il flag a true quando viene cliccato il taso sx
+        document.addEventListener("mousedown", function(event){
+            if(event.button == 0){
+               leftClick = true;
+            }
+        });
+
+        // Setta il flag a false quando viene rilasciato il taso sx
+        document.addEventListener("mouseup", function(event){
+            if(event.button == 0){
+               leftClick = false;
+            }
+        });
+
+        // Al caricamento del DOM
+        document.addEventListener("DOMContentLoaded", function(){
+            // Crea la griglia vuota
+            let grid = document.getElementById("grid");
+            grid.style.width = 60*10+"px";
+            let px;
+            for(let i=0; i<60; i++) {
+                for(let j=0; j<60; j++) {
+                    px = document.createElement("div");
+                    px.classList.add("px");
+                    px.dataset.currentBackgroundColor = input.value;
+                    grid.appendChild(px);
+                }
+            }
+            let pxs = document.getElementsByClassName("px");
+            // Attacca degli eventi ai "pixel" che consentono di
+            // cambiarne il colore
+            for(px of pxs) {
+                px.addEventListener("mouseover", function(event){
+                    this.style.backgroundColor = input.value;
+                });
+                px.addEventListener("mouseout", function(event){
+                   if(leftClick) {
+                    this.dataset.currentBackgroundColor = this.style.backgroundColor;
+                   } else {
+                    this.style.backgroundColor = this.dataset.currentBackgroundColor;
+                    console.log("release");
+                   }
+                });
+                px.addEventListener("click", function(event){
+                    this.dataset.currentBackgroundColor = this.style.backgroundColor = input.value;
+                });
+            }
+
+        });
+    </script>
+</body>
+</html>
