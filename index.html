@@ -19,22 +19,19 @@
         height: 10px;
         background-color: black;
         float: left;
-        border: 1px solid white;
         box-sizing: border-box;
         cursor: pointer;
     }
-    .selector {
-        height: 100%;
-        width: 100%;
-        display: block;
-    }
-    .input {
-        display: none;
+    #clear {
+        cursor: pointer;
     }
 </style>
 <body>
     <div class="main">
-        <input type="color" id="color-picker">
+        <div id="top-menu">
+            <input type="color" id="color-picker">
+            <input type="button" id="clear" value="Clear">
+        </div>
         <div id="grid">
         </div>
     </div>
@@ -53,6 +50,8 @@
 
         // Il color picker
         const input = document.getElementById("color-picker");
+        // Il pulsante di reset
+        const clear = document.getElementById("clear");
 
         // Il flag che dice se il tasto sx del mouse/touchpad è
         // cliccato
@@ -98,7 +97,6 @@
                     this.dataset.currentBackgroundColor = this.style.backgroundColor;
                    } else {
                     this.style.backgroundColor = this.dataset.currentBackgroundColor;
-                    console.log("release");
                    }
                 });
                 px.addEventListener("click", function(event){
@@ -106,7 +104,17 @@
                 });
             }
 
+            clear.addEventListener("click", function() {
+                console.log("here");
+                for(px of pxs) {
+                    px.style.backgroundColor = "#000000";
+                    px.dataset.currentBackgroundColor = "#000000";
+                }
+            });
+
         });
+
+        
     </script>
 </body>
 </html>
